@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const connection = () => {
-  const uri = process.env.MONGO_URL;
 
-  mongoose.connect(uri)
+  mongoose.connect(process.env.MONGO_URL)
     .then(() => {
       console.log("Successfully connected to MongoDB");
     })
