@@ -21,7 +21,7 @@ export const login = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Invalid email or password" });
     }
-
+  
     sendCookie(user, res, `Welcome back, ${user.name}`, 200);
   } catch (error) {
     next(error);
@@ -60,6 +60,27 @@ export const logout = (req, res) => {
     })
     .json({ success: true, message: "Logout" });
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { uName } = req.body;
+    const email = req.user.email
+    
+    const user = await User.updateMany(
+      { email},
+      {
+        $set: { name: uName }
+      }
+    );
+
+    res.status(200)
+    .json({ success: false, message: "Profile Updated" });
+  }
+  catch(error){
+    res.status(404)
+    .json({ success: false, message: error.message });
+  }
+}
 
 export const getMyProfile = (req, res) => {
   res.status(200).json({ success: true, message: req.user });
